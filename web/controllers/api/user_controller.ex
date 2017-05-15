@@ -7,7 +7,7 @@ defmodule Todo.API.UserController do
       User
       |> Repo.all()
       |> IO.inspect()
-      |> Repo.preload([:lists, :completed_items])
+      |> Repo.preload([[lists: :items], :completed_items])
 
     render(conn, "index.json", users: users)
   end

@@ -10,11 +10,15 @@ defmodule Todo.API.ListView do
     %{data: render_one(list, ListView, "list.json")}
   end
 
-  def render("item.json", %{list: list}) do
+  def render("list.json", %{list: list}) do
     %{
       name: list.name,
       users: render_many(list.users, Todo.API.UserView, "user.json"),
       items: render_many(list.items, Todo.API.ItemView, "item.json")
     }
+  end
+
+  def render("simple.json", %{list: list}) do
+    %{name: list.name}
   end
 end
