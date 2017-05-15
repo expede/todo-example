@@ -1,0 +1,48 @@
+defmodule Todo.List do
+  use Todo.Web, :model
+
+  @type t :: %Todo.List{
+    id: non_neg_integer(),
+    name: String.t(),
+
+    users: [Todo.User.t()],
+    items: [Todo.Item.t()],
+
+    inserted_at: Ecto.DateTime.t(),
+    updated_at: Ecto.DateTime.t()
+  }
+
+  schema "lists" do
+    # ==========
+    # Attributes
+    # ==========
+
+    field :name, :string
+
+    timestamps()
+
+    # ============
+    # Associations
+    # ============
+
+    has_many :items, Todo.Item,
+      on_replace: :delete,
+      on_delete: :delete_all
+
+    many_to_many :users, Todo.User,
+      join_through: "memberships",
+      on_replace: :delete
+  end
+
+  @allowed_fields ~W(name)
+  @required_fields ~W(name)a
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(list, params) do
+    list
+    |> cast(params, @allowed_fields)
+    |> validate_required(@required_fields)
+    |> cast_assoc(:items)
+    |> cast_assoc(:users)
+  end
+end
