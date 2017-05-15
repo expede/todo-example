@@ -3,17 +3,29 @@
 /db
 /deps
 /*.ez
+/*.bk
+/*.pdf
+/priv/kludge/ignored/
+/tmp
 
-# Generated on crash by the VM
+.env
+.DS_Store
+/doc
+/cover
+
+# Generate on crash by the VM
 erl_crash.dump
 
 # Static artifacts
-/node_modules
+node_modules/
+
+# Docker artifacts
+*.tar
 
 # Since we are building assets from web/static,
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
-/priv/static/
+priv/static/js/*
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
@@ -22,3 +34,8 @@ erl_crash.dump
 # secrets file as long as you replace its contents by environment
 # variables.
 /config/prod.secret.exs
+priv/static/js/app.js
+priv/static/js/app.js.map
+priv/static/css/
+priv/static/fonts/
+priv/static/images/
