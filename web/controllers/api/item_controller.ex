@@ -3,7 +3,12 @@ defmodule Todo.API.ItemController do
   use Todo.Web, :controller
 
   def index(conn, _params) do
-    render(conn, "index.json", items: Repo.all(Item))
+    items =
+      Item
+      |> Repo.all()
+      |> Repo.preload([:list, :completer])
+
+    render(conn, "index.json", items: items)
   end
 
   def show(conn, %{"id" => id}) do
@@ -36,8 +41,6 @@ defmodule Todo.API.ItemController do
     |> Repo.get!(id)
     |> Repo.delete!()
 
-    conn
-    |> put_status(204)
-    |> halt()
+    send_resp(conn, 204, "")
   end
 end

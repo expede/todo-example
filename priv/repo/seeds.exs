@@ -15,14 +15,14 @@ alias Todo.{Factory}
 IO.puts "*** Seeding Users ***"
 
 users =
-  10..30
+  50..500
   |> Enum.random()
   |> Factory.insert_list(:user)
 
 IO.puts "*** Seeding Lists ***"
 
 lists =
-  0..20
+  50..200
   |> Enum.random()
   |> Range.new(30)
   |> Enum.map(fn _ ->
@@ -32,7 +32,7 @@ lists =
 
 IO.puts "*** Seeding Items ***"
 
-0..300
+500..3000
 |> Enum.random()
 |> Range.new(400)
 |> Enum.map(fn _ ->

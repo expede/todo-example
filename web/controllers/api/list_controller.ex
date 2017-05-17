@@ -48,8 +48,6 @@ defmodule Todo.API.ListController do
     |> Repo.get!(id)
     |> Repo.delete!()
 
-    conn
-    |> put_status(204)
-    |> halt()
+    send_resp(conn, 204, "")
   end
 end

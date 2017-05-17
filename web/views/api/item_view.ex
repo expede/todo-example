@@ -3,27 +3,34 @@ defmodule Todo.API.ItemView do
   use Todo.Web, :view
 
   def render("index.json", %{items: items}) do
-    %{data: render_many(items, ItemView, "simple_item.json")}
+    %{data: render_many(items, ItemView, "item.json")}
   end
 
   def render("show.json", %{item: item}) do
     %{data: render_one(item, ItemView, "item.json")}
   end
 
-  def render("item.json", %{item: item}) do
-    %{
-      name: item.name,
-      list: render_one(item.list, Todo.API.ListView, "list.json"),
-      completer: render_one(item.completer, Todo.API.UserView, "user.json")
-    }
-  end
+  def render("item.json", %{item: item} = params) do
+    list =
+      case item.list do
+        %Todo.List{} = list -> render_one(list, Todo.API.ListView, "list.json")
+        _ -> nil
+      end
 
-  def render("simple_item.json", %{item: item}) do
+    completer =
+      case item.completer do
+        %Todo.User{} = user -> render_one(user, Todo.API.UserView, "user.json")
+        _ -> nil
+      end
+
     %{
+      id: item.id,
       name: item.name,
-      list_id: item.list_id,
+      complete: not is_nil(item.completer_id),
+      completer: completer,
       completer_id: item.completer_id,
-      complete: not is_nil(item.completer_id)
+      list: list,
+      list_id: item.list_id
     }
   end
 end

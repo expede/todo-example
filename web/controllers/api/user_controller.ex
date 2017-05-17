@@ -2,18 +2,15 @@ defmodule Todo.API.UserController do
   alias Todo.User
   use Todo.Web, :controller
 
-  def index(conn, _params) do
-    users =
-      User
-      |> Repo.all()
-      |> IO.inspect()
-      |> Repo.preload([[:lists, :items], :completed_items])
-
-    render(conn, "index.json", users: users)
-  end
+  def index(conn, _params), do: render(conn, "index.json", users: Repo.all(User))
 
   def show(conn, %{"id" => id}) do
-    render(conn, "show.json", user: Repo.get!(User, id))
+    user =
+      User
+      |> Repo.get!(id)
+      |> Repo.preload([:lists, :completed_items])
+
+    render(conn, "show.json", user: user)
   end
 
   def create(conn, params) do
@@ -21,6 +18,7 @@ defmodule Todo.API.UserController do
       User
       |> User.changeset(params)
       |> Repo.insert!()
+      |> Repo.preload([:lists, :completed_items])
 
     conn
     |> put_status(:created)
@@ -43,8 +41,6 @@ defmodule Todo.API.UserController do
       |> Repo.get!(id)
       |> Repo.delete!()
 
-    conn
-    |> put_status(204)
-    |> halt()
+    send_resp(conn, 204, "")
   end
 end
