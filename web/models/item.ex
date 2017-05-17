@@ -39,6 +39,5 @@ defmodule Todo.Item do
     |> validate_required(@required_fields)
     |> assoc_constraint(:completer)
     |> assoc_constraint(:list)
-    |> unique_constraint(:name, name: :unique_name_within_list)
   end
 end

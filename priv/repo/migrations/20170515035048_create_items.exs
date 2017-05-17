@@ -10,7 +10,5 @@ defmodule Todo.Repo.Migrations.CreateItems do
 
       timestamps()
     end
-
-    create unique_index(:items, [:name, :list_id], name: :unique_name_within_list)
   end
 end
