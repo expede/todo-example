@@ -3,7 +3,7 @@ defmodule Todo.API.ListView do
   use Todo.Web, :view
 
   def render("index.json", %{lists: lists}) do
-    %{data: render_many(lists, ListView, "list.json")}
+    %{data: render_many(lists, ListView, "simple_list.json")}
   end
 
   def render("show.json", %{list: list}) do
@@ -18,7 +18,11 @@ defmodule Todo.API.ListView do
     }
   end
 
-  def render("simple.json", %{list: list}) do
-    %{name: list.name}
+  def render("simple_list.json", %{list: list}) do
+    %{
+      name: list.name,
+      user_ids: Enum.map(list.users, fn user -> user.id end),
+      item_ids: Enum.map(list.items, fn item -> item.id end)
+    }
   end
 end

@@ -3,39 +3,50 @@ defmodule Todo.API.ListController do
   use Todo.Web, :controller
 
   def index(conn, _params) do
-    render(conn, "index.json", users: Repo.all(List))
+    lists =
+      List
+      |> Repo.all()
+      |> Repo.preload([:users, :items])
+
+    render(conn, "index.json", lists: lists)
   end
 
   def show(conn, %{"id" => id}) do
-    render(conn, "show.json", user: Repo.get!(List, id))
+    list =
+      List
+      |> Repo.get!(id)
+      |> Repo.preload([:users, :items])
+
+    render(conn, "show.json", list: list)
   end
 
   def create(conn, params) do
-    user =
+    list =
       List
       |> List.changeset(params)
       |> Repo.insert!()
+      |> Repo.preload([:users, :items])
 
     conn
     |> put_status(:created)
-    |> render("show.json", user: user)
+    |> render("show.json", list: list)
   end
 
   def update(conn, %{"id" => id} = params) do
-    user =
+    list =
       List
       |> Repo.get!(id)
       |> List.changeset(params)
       |> Repo.update!()
+      |> Repo.preload([:users, :items])
 
-    render(conn, "show.json", user: user)
+    render(conn, "show.json", list: list)
   end
 
   def delete(conn, %{"id" => id}) do
-    user =
-      List
-      |> Repo.get!(id)
-      |> Repo.delete!()
+    List
+    |> Repo.get!(id)
+    |> Repo.delete!()
 
     conn
     |> put_status(204)

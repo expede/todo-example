@@ -29,9 +29,9 @@ defmodule Todo.Router do
     end
 
     resources "/lists", ListController do
-      resources "/items", ItemsController, only: [:index, :show]
+      resources "/items", ItemController, only: [:index, :show]
     end
 
-    resources "/items", ItemsController
+    resources "/items", ItemController
   end
 end

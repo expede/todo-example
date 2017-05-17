@@ -13,8 +13,16 @@ defmodule Todo.API.UserView do
   def render("user.json", %{user: user}) do
     %{
       name: user.name,
-      lists: render_many(user.lists, Todo.API.ListView, "simple.json"),
-      completed_items: render_many(user.completed_items, Todo.API.ItemView, "user.json")
+      lists: render_many(user.lists, Todo.API.ListView, "simple_list.json"),
+      completed_items: render_many(user.completed_items, Todo.API.ItemView, "simple_item.json")
+    }
+  end
+
+  def render("simple_user.json", %{user: user}) do
+    %{
+      name: user.name,
+      list_ids: Enum.map(user.lists, fn list -> list.id end),
+      completed_item_ids: Enum.map(user.completed_items, fn item -> item.id end)
     }
   end
 end
