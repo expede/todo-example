@@ -1,4 +1,14 @@
 defmodule Todo.Item do
+  @moduledoc """
+  Models a list item
+
+  Backed by Ecto
+
+      Completer --- Item >--- List
+        (User)
+
+  """
+
   use Todo.Web, :model
 
   @type t :: %Todo.Item{

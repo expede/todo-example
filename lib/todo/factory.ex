@@ -9,9 +9,7 @@ defmodule Todo.Factory do
 
   @spec user_factory() :: Todo.User.t()
   def user_factory do
-    %Todo.User{
-      name: Faker.Name.En.name()
-    }
+    %Todo.User{name: Faker.Name.En.name()}
   end
 
   # ===== #
@@ -20,9 +18,7 @@ defmodule Todo.Factory do
 
   @spec list_factory() :: Todo.List.t()
   def list_factory do
-    %Todo.List{
-      name: Faker.Company.En.name()
-    }
+    %Todo.List{name: Faker.Company.En.name()}
   end
 
   # ===== #

@@ -1,5 +1,12 @@
 defmodule Todo.User do
-  @moduledoc "A human user of the system. Model is backed by an Ecto store"
+  @moduledoc """
+  A human user of the system
+
+  Backed by Ecto
+
+      Completed Items >--- User >---< List
+
+  """
 
   use Todo.Web, :model
 

@@ -1,7 +1,10 @@
 defmodule Todo.API.UserView do
+  @moduledoc "JSON render functions for `User`s"
+
   alias __MODULE__
   use Todo.Web, :view
 
+  @spec render(String.t(), map()) :: map()
   def render("index.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
   end

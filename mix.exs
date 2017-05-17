@@ -67,9 +67,10 @@ defmodule Todo.Mixfile do
       {:cowboy, "~> 1.0"},
 
       # Quality
-      {:dialyxir, "~> 0.5"},
-      {:ex_spec, "~> 2.0"},
       {:credo, "~> 0.7"},
+      {:dialyxir, "~> 0.5", runtime: false},
+      {:ex_doc, "~> 0.15"},
+      {:ex_spec, "~> 2.0"},
 
       # Convenience
       {:ex_machina, "~> 2.0"},
@@ -102,7 +103,7 @@ defmodule Todo.Mixfile do
       "quality": [
         "test",
         "credo --strict",
-        "dialyzer"
+        "docs"
       ]
     ]
   end

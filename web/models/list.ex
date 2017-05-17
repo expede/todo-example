@@ -1,4 +1,13 @@
 defmodule Todo.List do
+  @moduledoc """
+  Models a list of items
+
+  Backed by Ecto
+
+      User >---< List ---< Item
+
+  """
+
   use Todo.Web, :model
 
   @type t :: %Todo.List{

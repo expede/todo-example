@@ -1,4 +1,6 @@
 defmodule Todo do
+  @moduledoc "Todo top-level supervisor"
+
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
