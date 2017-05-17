@@ -13,7 +13,7 @@ defmodule Todo.API.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def create(conn, params) do
+  def create(conn, %{"data" => params}) do
     user =
       User
       |> User.changeset(params)
@@ -25,11 +25,11 @@ defmodule Todo.API.UserController do
     |> render("show.json", user: user)
   end
 
-  def update(conn, %{"id" => id} = params) do
+  def update(conn, %{"id" => id, "data" => changes}) do
     user =
       User
       |> Repo.get!(id)
-      |> User.changeset(params)
+      |> User.changeset(changes)
       |> Repo.update!()
 
     render(conn, "show.json", user: user)

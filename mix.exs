@@ -23,7 +23,12 @@ defmodule Todo.Mixfile do
       start_permanent: Mix.env == :prod,
 
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      docs: [
+        extras: ~w(README.md),
+        main:   "readme"
+      ]
     ]
   end
 

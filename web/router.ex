@@ -24,12 +24,12 @@ defmodule Todo.Router do
     pipe_through :api
 
     resources "/users", UserController do
-      get "/completed", ItemController, :completed
-      resources "/lists", ListController
+      get "/lists",     ListController, :user_lists
+      get "/completed", ItemController, :completed_for_user
     end
 
     resources "/lists", ListController do
-      resources "/items", ItemController, only: [:index, :show]
+      get "/items", ItemController, :list_items
     end
 
     resources "/items", ItemController
