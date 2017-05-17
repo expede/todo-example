@@ -1,0 +1,1 @@
+Hi there. This page is for <%= @user.name %>.

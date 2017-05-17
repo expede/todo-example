@@ -2,8 +2,10 @@ defmodule Todo.API.UserController do
   alias Todo.User
   use Todo.Web, :controller
 
+  @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(conn, _params), do: render(conn, "index.json", users: Repo.all(User))
 
+  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     user =
       User
@@ -13,6 +15,7 @@ defmodule Todo.API.UserController do
     render(conn, "show.json", user: user)
   end
 
+  @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def create(conn, %{"data" => params}) do
     user =
       User
@@ -25,6 +28,7 @@ defmodule Todo.API.UserController do
     |> render("show.json", user: user)
   end
 
+  @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "data" => changes}) do
     user =
       User
@@ -35,6 +39,7 @@ defmodule Todo.API.UserController do
     render(conn, "show.json", user: user)
   end
 
+  @spec delete(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def delete(conn, %{"id" => id}) do
     user =
       User
