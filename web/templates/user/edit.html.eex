@@ -1,13 +1,49 @@
 <h2>Edit <%= @user.name %></h2>
 
-<%=
-  render(
-    "form.html",
-    conn: @conn,
-    changeset: @changeset,
-    submit_path: user_path(@conn, :update, @user),
-    submit_label: "Update!"
-  )
-%>
+<%= form_for @changeset, user_path(@conn, :update, @user), fn form -> %>
+  <div class="form-group">
+    <%= text_input(
+      form,
+      :name,
+      placeholder: name_placeholder(@changeset.data),
+      value: @changeset.data.name,
+      class: "form-control"
+    )
+    %>
+    <%= error_tag(form, :name) %>
+  </div>
+
+  <div class="form-group">
+    <%=
+      text_input(
+        form,
+        :avatar_url,
+        placeholder: avatar_url_placeholder(@changeset.data),
+        value: @changeset.data.avatar_url,
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :avatar_url) %>
+  </div>
+
+  <div class="form-group">
+    <h3>Joined Lists</h3>
+
+    <ul>
+      <%= for {list, member} <- @checkbox_memberships do %>
+        <li>
+          <%= checkbox(form, String.to_atom("list_#{list.id}"), value: member) %>
+          <label><%= list.name %></label>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= error_tag(form, :lists) %>
+  </div>
+
+  <div class="form-group">
+    <%= submit("Update", class: "btn btn-primary") %>
+  </div>
+<% end %>
 
 <%= link "Cancel", to: user_path(@conn, :show, @user) %>

@@ -1,0 +1,5 @@
+<%= if @avatar_url do %>
+  <a href="<%= @link %>">
+    <img height="<%= @height %>px" class="img-circle" src="<%= @avatar_url %>">
+  </a>
+<% end %>

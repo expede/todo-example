@@ -9,7 +9,10 @@ defmodule Todo.Factory do
 
   @spec user_factory() :: Todo.User.t()
   def user_factory do
-    %Todo.User{name: Faker.Name.En.name()}
+    %Todo.User{
+      name: Faker.Name.En.name(),
+      avatar_url: Enum.random([nil, Faker.Avatar.image_url()])
+    }
   end
 
   # ===== #
@@ -30,15 +33,9 @@ defmodule Todo.Factory do
 
   @spec item_factory() :: Todo.Item.t()
   def item_factory do
-    name =
-      if Enum.random([true, false]) do
-        Faker.Beer.En.name()
-      else
-        Faker.Pokemon.En.name()
-      end
-
     %Todo.Item{
-      name: name,
+      name: Enum.random([Faker.Beer.En.name(), Faker.Pokemon.En.name()]),
+      image_url: Enum.random([nil, Faker.Internet.image_url()]),
       completer: build(:user),
       list: build(:list)
     }

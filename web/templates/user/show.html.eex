@@ -1,3 +1,7 @@
+<div style="float: left;">
+  <%= render("avatar.html", avatar_url: @user.avatar_url, link: @user.avatar_url, height: "30px") %>
+</div>
+
 <h2><%= @user.name %></h2>
 
 <%= link("Edit", to: user_path(@conn, :edit, @user)) %>
@@ -5,14 +9,12 @@
 <table class="table">
   <thead>
     <th>ID</th>
-    <th>Name</th>
     <th>Joined</th>
     <th>Last updated</th>
   </thead>
 
   <tbody>
     <th><%= @user.id %></th>
-    <th><%= @user.name %></th>
     <th><%= datetime(@user.inserted_at) %></th>
     <th><%= datetime(@user.updated_at) %></th>
   </tbody>

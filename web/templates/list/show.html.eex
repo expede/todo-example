@@ -2,17 +2,18 @@
 
 <%= link("Edit", to: list_path(@conn, :edit, @list)) %>
 
+<section>
+  <h3>Notes</h3>
+  <%= @list.notes || "None" %>
+</section>
+
 <table class="table">
   <thead>
-    <th>ID</th>
-    <th>Notes</th>
     <th>Started</th>
     <th>Last updated</th>
   </thead>
 
   <tbody>
-    <th><%= @list.id %></th>
-    <th><%= @list.notes %></th>
     <th><%= datetime(@list.inserted_at) %></th>
     <th><%= datetime(@list.updated_at) %></th>
   </tbody>

@@ -1,5 +1,5 @@
 defmodule Todo.UserController do
-  alias Todo.User
+  alias Todo.{List, User}
   use Todo.Web, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -42,8 +42,27 @@ defmodule Todo.UserController do
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    render(conn, "edit.html", changeset: User.changeset(user), user: user, conn: conn)
+    user =
+      User
+      |> Repo.get!(id)
+      |> Repo.preload([:lists])
+
+    list_ids = Enum.map(user.lists, fn list -> list.id end)
+    all_lists = Repo.all(List)
+
+    memberships =
+      Enum.reduce(all_lists, [], fn(list, acc) ->
+        [{list, Enum.member?(list_ids, list.id)} | acc]
+      end)
+
+    render(
+      conn,
+      "edit.html",
+      changeset: User.changeset(user),
+      user: user,
+      checkbox_memberships: memberships,
+      conn: conn
+    )
   end
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()

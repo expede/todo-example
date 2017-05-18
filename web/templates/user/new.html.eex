@@ -1,13 +1,34 @@
 <h1>New User</h1>
 
-<%=
-  render(
-    "form.html",
-    conn: @conn,
-    changeset: @changeset,
-    submit_path: user_path(@conn, :create),
-    submit_label: "Create!"
-  )
-%>
+<%= form_for @changeset, user_path(@conn, :create), fn form -> %>
+  <div class="form-group">
+    <%= text_input(
+      form,
+      :name,
+      placeholder: name_placeholder(@changeset.data),
+      value: @changeset.data.name,
+      class: "form-control"
+    )
+    %>
+    <%= error_tag(form, :name) %>
+  </div>
+
+  <div class="form-group">
+    <%=
+      text_input(
+        form,
+        :avatar_url,
+        placeholder: avatar_url_placeholder(@changeset.data),
+        value: @changeset.data.avatar_url,
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :avatar_url) %>
+  </div>
+
+  <div class="form-group">
+    <%= submit("Create", class: "btn btn-primary") %>
+  </div>
+<% end %>
 
 <%= link "Back to users", to: user_path(@conn, :index) %>

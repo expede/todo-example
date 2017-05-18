@@ -12,7 +12,9 @@ defmodule Todo.User do
 
   @type t :: %Todo.User{
     id: non_neg_integer(),
+
     name: String.t(),
+    avatar_url: String.t(),
 
     completed_items: [Todo.Item.t()],
     lists: [Todo.List.t()],
@@ -26,7 +28,8 @@ defmodule Todo.User do
     # Attributes
     # ==========
 
-    field :name, :string
+    field :name,       :string
+    field :avatar_url, :string
 
     timestamps()
 
@@ -44,7 +47,7 @@ defmodule Todo.User do
       on_delete:  :delete_all
   end
 
-  @allowed_fields ~W(name)
+  @allowed_fields ~W(name avatar_url)
   @required_fields ~W(name)a
 
   @doc ~S"""

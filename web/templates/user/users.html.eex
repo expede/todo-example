@@ -1,13 +1,21 @@
 <table class="table">
   <thead>
-    <th>ID</th>
+    <th>Avatar</th>
     <th>Name</th>
     <th>Joined</th>
   </thead>
 
   <%= for user <- @users do %>
     <tbody>
-      <th><%= user.id %></th>
+      <th>
+        <%= render(
+          "avatar.html",
+          avatar_url: user.avatar_url,
+          link: user_path(@conn, :show, user),
+          height: "20px")
+        %>
+      </th>
+
       <th><%= link(user.name, to: user_path(@conn, :show, user)) %></th>
       <th><%= datetime(user.updated_at) %></th>
     </tbody>

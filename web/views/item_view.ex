@@ -16,6 +16,10 @@ defmodule Todo.ItemView do
   def name_placeholder(%{name: name}) when is_bitstring(name), do: name
   def name_placeholder(_), do: "Item name"
 
+  @spec image_url_placeholder(User.t()) :: String.t()
+  def image_url_placeholder(%{image_url: image_url}) when is_bitstring(image_url), do: image_url
+  def image_url_placeholder(_), do: "Image URL"
+
   @spec user_options([Todo.User.t()]) :: keyword()
   def user_options(users), do: Enum.map(users, fn %{id: id, name: name} -> {name, id} end)
 

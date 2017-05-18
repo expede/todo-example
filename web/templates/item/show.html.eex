@@ -1,11 +1,12 @@
 <h2><%= @item.name %></h2>
-
 <%= link("Edit", to: list_item_path(@conn, :edit, @item.list, @item)) %>
+
+<div class="container">
+  <%= render("image.html", image_url: @item.image_url, link: @item.image_url, height: "auto") %>
+</div>
 
 <table class="table">
   <thead>
-    <th>ID</th>
-    <th>Name</th>
     <th>List</th>
     <th>Completed By</th>
     <th>Joined</th>
@@ -13,14 +14,13 @@
   </thead>
 
   <tbody>
-    <th><%= @item.id %></th>
-    <th><%= @item.name %></th>
-    <th><%= link(@list.name, to: list_path(@conn, :show, @list)) %></th>
     <th>
       <%= if @completer do %>
         <%= link(@completer.name, to: user_path(@conn, :show, @completer)) %>
       <% end %>
     </th>
+
+    <th><%= link(@list.name, to: list_path(@conn, :show, @list)) %></th>
     <th><%= datetime(@item.inserted_at) %></th>
     <th><%= datetime(@item.updated_at) %></th>
   </tbody>

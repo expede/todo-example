@@ -27,7 +27,7 @@ defmodule Todo.List do
     # Attributes
     # ==========
 
-    field :name, :string
+    field :name,  :string
     field :notes, :string
 
     timestamps()

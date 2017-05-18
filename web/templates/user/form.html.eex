@@ -1,15 +1,46 @@
-<%= form_for @changeset, @submit_path, fn f -> %>
-  <div class="form_group">
+<%= form_for @changeset, user_path(@conn, :create), fn form -> %>
+  <div class="form-group">
     <%= text_input(
-      f,
+      form,
       :name,
       placeholder: name_placeholder(@changeset.data),
       value: @changeset.data.name,
       class: "form-control"
     )
     %>
-    <%= error_tag(f, :name) %>
+    <%= error_tag(form, :name) %>
   </div>
 
-  <%= submit(@submit_label, class: "btn btn-primary") %>
+  <div class="form-group">
+    <%=
+      text_input(
+        form,
+        :avatar_url,
+        placeholder: avatar_url_placeholder(@changeset.data),
+        value: @changeset.data.avatar_url,
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :avatar_url) %>
+  </div>
+
+  <div class="form-group">
+    <h3>Joined Lists</h3>
+
+    <ul>
+      <%= for list <- @changeset.data.lists do %>
+        <% set = Enum.member?(@all_lists, list.id) %>
+        <li>
+          <%= checkbox(form, String.to_atom("list_#{list.id}"), checked_value: list.id, value: true) %>
+          <label><%= list.name %></label>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= error_tag(form, :lists) %>
+  </div>
+
+  <div class="form-group">
+    <%= submit(@submit_label, class: "btn btn-primary") %>
+  </div>
 <% end %>

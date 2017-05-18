@@ -1,0 +1,5 @@
+<%= if @image_url do %>
+  <a href="<%= @link %>">
+    <img height="<%= @height %>" class="img-rounded" src="<%= @image_url %>">
+  </a>
+<% end %>

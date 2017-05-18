@@ -15,8 +15,10 @@
     <div class="container">
       <header class="header container">
         <nav role="navigation">
-          <h1><a href=<%= page_path(Todo.Endpoint, :index) %>>Example Todo App</a></h1>
+          <h1>Example Todo App</h1>
+
           <ul class="nav nav-pills pull-right">
+            <li><%= link("Home",  to: page_path(@conn, :index)) %></li>
             <li><%= link("Users", to: user_path(@conn, :index)) %></li>
             <li><%= link("Lists", to: list_path(@conn, :index)) %></li>
           </ul>

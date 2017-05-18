@@ -1,6 +1,6 @@
 <table class="table">
   <thead>
-    <th>ID</th>
+    <th>Avatar</th>
     <th>Name</th>
     <th>List</th>
     <th>Created At</th>
@@ -8,9 +8,22 @@
   </thead>
 
   <%= for item <- @items do %>
+    <% item_path = list_item_path(@conn, :show, item.list, item) %>
+
     <tbody>
-      <th><%= item.id %></th>
-      <th><%= link(item.name, to: list_item_path(@conn, :show, item.list, item)) %></th>
+      <th>
+        <%=
+          render(
+            Todo.ItemView,
+            "image.html",
+            link: item_path,
+            image_url: item.image_url,
+            height: "20px"
+          )
+        %>
+      </th>
+
+      <th><%= link(item.name, to: item_path) %></th>
       <th><%= link(item.list.name, to: list_path(@conn, :show, item.list)) %></th>
       <th><%= datetime(item.inserted_at) %></th>
       <th><%= datetime(item.updated_at) %></th>

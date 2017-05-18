@@ -13,7 +13,9 @@ defmodule Todo.Item do
 
   @type t :: %Todo.Item{
     id: non_neg_integer(),
+
     name: String.t(),
+    image_url: String.t(),
 
     completer: Todo.User.t() | nil,
     list: Todo.List.t(),
@@ -27,7 +29,8 @@ defmodule Todo.Item do
     # Attributes
     # ==========
 
-    field :name, :string
+    field :name,      :string
+    field :image_url, :string
 
     timestamps()
 
@@ -35,11 +38,11 @@ defmodule Todo.Item do
     # Associations
     # ============
 
-    belongs_to :list, Todo.List
+    belongs_to :list,      Todo.List
     belongs_to :completer, Todo.User
   end
 
-  @allowed_fields ~W(name completer_id list_id)
+  @allowed_fields ~W(name image_url completer_id list_id)
   @required_fields ~W(name list_id)a
 
   @spec changeset(t(), map() | :empty) :: Ecto.Changeset.t()
