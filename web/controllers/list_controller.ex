@@ -1,79 +1,79 @@
-defmodule Todo.UserController do
-  alias Todo.User
+defmodule Todo.ListController do
+  alias Todo.List
   use Todo.Web, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(conn, _params) do
-    render(conn, "index.html", users: Repo.all(User), conn: conn)
+    render(conn, "index.html", lists: Repo.all(List), conn: conn)
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
-    user =
-      User
+    list =
+      List
       |> Repo.get!(id)
-      |> Repo.preload([:lists, :completed_items])
+      |> Repo.preload([:users, [items: :list]])
 
-    render(conn, "show.html", user: user, conn: conn)
+    render(conn, "show.html", list: list, conn: conn)
   end
 
   @spec new(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def new(conn, _params), do: render(conn, "new.html", changeset: User.changeset(%User{}))
+  def new(conn, _params), do: render(conn, "new.html", changeset: List.changeset(%List{}))
 
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def create(conn, %{"user" => user_params}) do
-    User
+  def create(conn, %{"list" => list_params}) do
+    List
     |> struct()
-    |> User.changeset(user_params)
+    |> List.changeset(list_params)
     |> Repo.insert()
     |> case do
-         {:ok, %{name: name} = user} ->
+         {:ok, %{name: name} = list} ->
            conn
            |> put_flash(:info, "#{name} created!")
-           |> redirect(to: user_path(conn, :show, user))
+           |> redirect(to: list_path(conn, :show, list))
 
          {:error, changeset} ->
            conn
            |> put_status(422)
-           |> put_flash(:error, "Problem creating user!")
+           |> put_flash(:error, "Problem creating list!")
            |> render("new.html", conn: conn, changeset: changeset)
        end
   end
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    render(conn, "edit.html", changeset: User.changeset(user), user: user, conn: conn)
+    list = Repo.get!(List, id)
+    render(conn, "edit.html", changeset: List.changeset(list), list: list, conn: conn)
   end
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    User
+  def update(conn, %{"id" => id, "list" => list_params}) do
+    List
     |> Repo.get!(id)
-    |> Repo.preload([:lists, :completed_items])
-    |> User.changeset(user_params)
+    |> Repo.preload([:items, :users])
+    |> List.changeset(list_params)
     |> Repo.update()
     |> case do
-         {:ok, %{name: name} = user} ->
+         {:ok, %{name: name} = list} ->
            conn
            |> put_flash(:info, "#{name} updated!")
-           |> redirect(to: user_path(conn, :show, user))
+           |> redirect(to: list_path(conn, :show, list))
 
          {:error, changeset} ->
            conn
            |> put_status(422)
-           |> put_flash(:error, "Problem updating user!")
+           |> put_flash(:error, "Problem updating list!")
            |> render("new.html", conn: conn, changeset: changeset)
        end
   end
 
   @spec delete(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def delete(conn, %{"id" => id}) do
-    User
+    List
     |> Repo.get!(id)
     |> Repo.delete!()
 
-    redirect(conn, to: user_path(conn, :index))
+    redirect(conn, to: list_path(conn, :index))
   end
 
   # @spec find_by_name(Ecto.Query.t(), String.t()) :: Ecto.Query.t()

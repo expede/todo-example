@@ -60,11 +60,12 @@ defmodule Todo.User do
       {:ok, %Todo.User{...}]
 
   """
-  @spec changeset(t(), map()) :: Ecto.Changeset.t()
-  def changeset(user, params) do
+  @spec changeset(t(), map() | :empty) :: Ecto.Changeset.t()
+  def changeset(user, params \\ :empty) do
     user
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)
+    |> validate_length(:name, min: 1, max: 256)
     |> cast_assoc(:lists)
     |> cast_assoc(:completed_items)
   end

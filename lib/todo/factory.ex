@@ -18,7 +18,10 @@ defmodule Todo.Factory do
 
   @spec list_factory() :: Todo.List.t()
   def list_factory do
-    %Todo.List{name: Faker.Company.En.name()}
+    %Todo.List{
+      name: Faker.Company.En.name(),
+      notes: Enum.random([nil, Faker.Lorem.Shakespeare.En.hamlet()])
+    }
   end
 
   # ===== #

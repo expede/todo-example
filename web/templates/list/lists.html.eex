@@ -1,0 +1,15 @@
+<table class="table">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Started</th>
+  </thead>
+
+  <%= for list <- @lists do %>
+    <tbody>
+      <th><%= list.id %></th>
+      <th><%= link(list.name, to: list_path(@conn, :show, list)) %></th>
+      <th><%= list.inserted_at %></th>
+    </tbody>
+  <% end %>
+</table>

@@ -1,0 +1,13 @@
+<h2>Edit <%= @list.name %></h2>
+
+<%=
+  render(
+    "form.html",
+    conn: @conn,
+    changeset: @changeset,
+    submit_path: list_path(@conn, :update, @list),
+    submit_label: "Update!"
+  )
+%>
+
+<%= link "Cancel", to: list_path(@conn, :show, @list) %>

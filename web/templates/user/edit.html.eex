@@ -1,0 +1,13 @@
+<h2>Edit <%= @user.name %></h2>
+
+<%=
+  render(
+    "form.html",
+    conn: @conn,
+    changeset: @changeset,
+    submit_path: user_path(@conn, :update, @user),
+    submit_label: "Update!"
+  )
+%>
+
+<%= link "Cancel", to: user_path(@conn, :show, @user) %>

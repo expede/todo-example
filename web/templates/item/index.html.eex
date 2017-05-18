@@ -1,0 +1,5 @@
+<h2>Items</h2>
+
+<%= link("New Item", to: item_path(@conn, :new)) %>
+
+<%= render("items.html", items: @items, conn: @conn) %>

@@ -1,0 +1,5 @@
+<h1>Lists</h1>
+
+<%= link("New List", to: list_path(@conn, :new)) %>
+
+<%= render("lists.html", lists: @lists, conn: @conn) %>

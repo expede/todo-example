@@ -1,0 +1,5 @@
+<h2>Users</h2>
+
+<%= link("New User", to: user_path(@conn, :new)) %>
+
+<%= render("users.html", users: @users, conn: @conn) %>

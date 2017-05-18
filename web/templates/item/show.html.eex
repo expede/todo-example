@@ -1,0 +1,27 @@
+<h2><%= @item.name %></h2>
+
+<table class="table">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>List</th>
+    <th>Completed By</th>
+    <th>Joined</th>
+    <th>Last updated</th>
+  </thead>
+
+  <tbody>
+    <th><%= @item.id %></th>
+    <th><%= @item.name %></th>
+    <th><%= link(@list.name, to: list_path(@conn, :show, @list)) %></th>
+    <th>
+      <%= if @completer do %>
+        <%= link(@completer.name, to: user_path(@conn, :show, @completer)) %>
+      <% end %>
+    </th>
+    <th><%= @item.inserted_at %></th>
+    <th><%= @item.updated_at %></th>
+  </tbody>
+</table>
+
+<%= render("delete_button.html", item: @item, conn: @conn) %>

@@ -13,6 +13,7 @@ defmodule Todo.List do
   @type t :: %Todo.List{
     id: non_neg_integer(),
     name: String.t(),
+    notes: String.t(),
 
     users: [Todo.User.t()],
     items: [Todo.Item.t()],
@@ -27,6 +28,7 @@ defmodule Todo.List do
     # ==========
 
     field :name, :string
+    field :notes, :string
 
     timestamps()
 
@@ -43,11 +45,11 @@ defmodule Todo.List do
       on_replace: :delete
   end
 
-  @allowed_fields ~W(name)
+  @allowed_fields ~W(name notes)
   @required_fields ~W(name)a
 
-  @spec changeset(t(), map()) :: Ecto.Changeset.t()
-  def changeset(list, params) do
+  @spec changeset(t(), map() | :empty) :: Ecto.Changeset.t()
+  def changeset(list, params \\ :empty) do
     list
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)

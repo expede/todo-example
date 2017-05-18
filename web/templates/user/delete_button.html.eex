@@ -1,0 +1,11 @@
+<%=
+form_for @conn, user_path(@conn, :delete, @user),
+[
+  method: :delete,
+  as: :delete_params,
+  id: "user-delete-from",
+  onsubmit: delete_confirmation(@user.name),
+],
+fn _ ->%>
+  <button class="btn btn-primary">Delete</button>
+<% end %>

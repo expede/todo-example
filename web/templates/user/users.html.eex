@@ -1,0 +1,15 @@
+<table class="table">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Joined</th>
+  </thead>
+
+  <%= for user <- @users do %>
+    <tbody>
+      <th><%= user.id %></th>
+      <th><%= link(user.name, to: user_path(@conn, :show, user)) %></th>
+      <th><%= user.inserted_at %></th>
+    </tbody>
+  <% end %>
+</table>

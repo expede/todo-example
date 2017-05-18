@@ -4,6 +4,7 @@ defmodule Todo.Repo.Migrations.CreateLists do
   def change do
     create table(:lists) do
       add :name, :string, null: false
+      add :notes, :string, null: true
 
       timestamps()
     end
