@@ -15,4 +15,7 @@ defmodule Todo.ListView do
   @spec name_placeholder(User.t()) :: String.t()
   def name_placeholder(%{name: username}) when is_bitstring(username), do: username
   def name_placeholder(_), do: "List name"
+
+  @spec datetime(NaiveDateTime.t()) :: String.t()
+  def datetime(datetime), do: Timex.format!(datetime, "%F %T", :strftime)
 end

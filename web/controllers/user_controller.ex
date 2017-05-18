@@ -12,9 +12,9 @@ defmodule Todo.UserController do
     user =
       User
       |> Repo.get!(id)
-      |> Repo.preload([:lists, :completed_items])
+      |> Repo.preload([:lists, [completed_items: :list]])
 
-    render(conn, "show.html", user: user, conn: conn)
+    render(conn, "show.html", user: user, completed_items: user.completed_items, conn: conn)
   end
 
   @spec new(Plug.Conn.t(), map()) :: Plug.Conn.t()

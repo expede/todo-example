@@ -16,4 +16,7 @@ defmodule Todo.UserView do
   @spec name_placeholder(User.t()) :: String.t()
   def name_placeholder(%{name: username}) when is_bitstring(username), do: username
   def name_placeholder(_), do: "User name"
+
+  @spec datetime(NaiveDateTime.t()) :: String.t()
+  def datetime(datetime), do: Timex.format!(datetime, "%F %T", :strftime)
 end

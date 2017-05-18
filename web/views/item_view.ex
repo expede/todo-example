@@ -18,4 +18,7 @@ defmodule Todo.ItemView do
 
   @spec user_options([Todo.User.t()]) :: keyword()
   def user_options(users), do: Enum.map(users, fn %{id: id, name: name} -> {name, id} end)
+
+  @spec datetime(NaiveDateTime.t()) :: String.t()
+  def datetime(datetime), do: Timex.format!(datetime, "%F %T", :strftime)
 end

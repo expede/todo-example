@@ -13,8 +13,8 @@
   <tbody>
     <th><%= @list.id %></th>
     <th><%= @list.notes %></th>
-    <th><%= @list.inserted_at %></th>
-    <th><%= @list.updated_at %></th>
+    <th><%= datetime(@list.inserted_at) %></th>
+    <th><%= datetime(@list.updated_at) %></th>
   </tbody>
 </table>
 

@@ -79,7 +79,8 @@ defmodule Todo.Mixfile do
 
       # Convenience
       {:ex_machina, "~> 2.0"},
-      {:faker, "~> 0.8"}
+      {:faker, "~> 0.8"},
+      {:timex, "~> 3.1"}
     ]
   end
 

@@ -2,14 +2,18 @@
   <thead>
     <th>ID</th>
     <th>Name</th>
-    <th>Created</th>
+    <th>List</th>
+    <th>Created At</th>
+    <th>Completed At</th>
   </thead>
 
   <%= for item <- @items do %>
     <tbody>
       <th><%= item.id %></th>
       <th><%= link(item.name, to: list_item_path(@conn, :show, item.list, item)) %></th>
+      <th><%= link(item.list.name, to: list_path(@conn, :show, item.list)) %></th>
       <th><%= datetime(item.inserted_at) %></th>
+      <th><%= datetime(item.updated_at) %></th>
     </tbody>
   <% end %>
 </table>
