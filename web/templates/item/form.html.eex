@@ -1,0 +1,18 @@
+<%= form_for @changeset, @submit_path, fn f -> %>
+  <div class="form_group">
+    <%= text_input(
+      f,
+      :name,
+      placeholder: name_placeholder(@changeset.data),
+      value: @changeset.data.name,
+      class: "form-control"
+    )
+    %>
+    <%= error_tag(f, :name) %>
+
+    <%= select(f, :completer_id, user_options(@users)) %>
+    <%= error_tag(f, :completer) %>
+  </div>
+
+  <%= submit(@submit_label, class: "btn btn-primary") %>
+<% end %>

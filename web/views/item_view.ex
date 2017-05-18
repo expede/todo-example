@@ -15,4 +15,7 @@ defmodule Todo.ItemView do
   @spec name_placeholder(User.t()) :: String.t()
   def name_placeholder(%{name: name}) when is_bitstring(name), do: name
   def name_placeholder(_), do: "Item name"
+
+  @spec user_options([Todo.User.t()]) :: keyword()
+  def user_options(users), do: Enum.map(users, fn %{id: id, name: name} -> {name, id} end)
 end

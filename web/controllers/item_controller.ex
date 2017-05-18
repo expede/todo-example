@@ -1,5 +1,5 @@
 defmodule Todo.ItemController do
-  alias Todo.Item
+  alias Todo.{Item, User}
   use Todo.Web, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -41,23 +41,38 @@ defmodule Todo.ItemController do
   end
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def edit(conn, %{"id" => id}) do
-    item = Repo.get!(Item, id)
-    render(conn, "edit.html", changeset: Item.changeset(item), item: item, conn: conn)
+  def edit(conn, %{"id" => id, "list_id" => list_id}) do
+    users = Repo.all(User)
+
+    item =
+      Item
+      |> Repo.get!(id)
+      |> Repo.preload([:completer, :list])
+
+    render(
+      conn,
+      "edit.html",
+      changeset: Item.changeset(item),
+      users: users,
+      item: item,
+      list: item.list,
+      completer: item.completer,
+      conn: conn
+    )
   end
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "item" => item_params}) do
     Item
     |> Repo.get!(id)
-    |> Repo.preload([:items, :users])
+    |> Repo.preload([:completer, :list])
     |> Item.changeset(item_params)
     |> Repo.update()
     |> case do
          {:ok, %{name: name} = item} ->
            conn
            |> put_flash(:info, "#{name} updated!")
-           |> redirect(to: item_path(conn, :show, item))
+           |> redirect(to: list_item_path(conn, :show, item.list, item))
 
          {:error, changeset} ->
            conn

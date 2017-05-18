@@ -1,5 +1,7 @@
 <h2><%= @item.name %></h2>
 
+<%= link("Edit", to: list_item_path(@conn, :edit, @item.list, @item)) %>
+
 <table class="table">
   <thead>
     <th>ID</th>
