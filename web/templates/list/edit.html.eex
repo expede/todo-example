@@ -1,13 +1,48 @@
 <h2>Edit <%= @list.name %></h2>
 
-<%=
-  render(
-    "form.html",
-    conn: @conn,
-    changeset: @changeset,
-    submit_path: list_path(@conn, :update, @list),
-    submit_label: "Update!"
-  )
-%>
+<%= form_for @changeset, list_path(@conn, :update, @list), fn form -> %>
+  <div class="form-group">
+    <%=
+      text_input(
+        form,
+        :name,
+        placeholder: name_placeholder(@changeset.data),
+        value: @changeset.data.name || "",
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :name) %>
+  </div>
 
-<%= link "Cancel", to: list_path(@conn, :show, @list) %>
+  <div class="form-group">
+    <%=
+      textarea(
+        form,
+        :notes,
+        placeholder: notes_placeholder(@changeset.data),
+        value: @changeset.data.notes || "",
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :notes) %>
+  </div>
+
+  <div class="form-group">
+    <h3>Members</h3>
+
+    <%= multiple_select(form, :user_ids, @all_users, selected: @member_ids) %>
+    <%= error_tag(form, :users) %>
+  </div>
+
+  <div class="form-group">
+    <h3>Items</h3>
+
+    <%= multiple_select(form, :item_ids, @list_items, selected: @list_item_ids) %>
+    <%= error_tag(form, :items) %>
+  </div>
+
+  <div class="form-group">
+    <%= link("Cancel", class: "btn btn-primary", to: list_path(@conn, :show, @list)) %>
+    <%= submit("Update", class: "btn btn-success") %>
+  </div>
+<% end %>

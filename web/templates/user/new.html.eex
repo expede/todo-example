@@ -6,7 +6,7 @@
       form,
       :name,
       placeholder: name_placeholder(@changeset.data),
-      value: @changeset.data.name,
+      value: @changeset.changes.name,
       class: "form-control"
     )
     %>
@@ -19,7 +19,7 @@
         form,
         :avatar_url,
         placeholder: avatar_url_placeholder(@changeset.data),
-        value: @changeset.data.avatar_url,
+        value: @changeset.changes.avatar_url,
         class: "form-control"
       )
     %>

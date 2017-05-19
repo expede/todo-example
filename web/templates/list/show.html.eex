@@ -25,3 +25,5 @@
 
 <h3>Items</h3>
 <%= render(Todo.ItemView, "items.html", items: @list.items, conn: @conn) %>
+
+<%= link("Add Item", class: "btn btn-primary", to: list_item_path(@conn, :new, @list)) %>

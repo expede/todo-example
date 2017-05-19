@@ -38,11 +38,11 @@ defmodule Todo.List do
 
     has_many :items, Todo.Item,
       on_replace: :delete,
-      on_delete: :delete_all
+      on_delete:  :delete_all
 
     many_to_many :users, Todo.User,
       join_through: "memberships",
-      on_replace: :delete
+      on_replace:   :delete
   end
 
   @allowed_fields ~W(name notes)
@@ -50,10 +50,11 @@ defmodule Todo.List do
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(list, params \\ %{}) do
+    IO.inspect(params)
     list
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)
-    |> cast_assoc(:items)
-    |> cast_assoc(:users)
+    |> put_assoc(:users, Map.get(params, "users", []))
+    |> put_assoc(:items, Map.get(params, "items", []))
   end
 end

@@ -1,6 +1,6 @@
 <h2>Edit <%= @user.name %></h2>
 
-<%= form_for @changeset, user_path(@conn, :show, @user), fn form -> %>
+<%= form_for @changeset, user_path(@conn, :update, @user), fn form -> %>
   <div class="form-group">
     <%= text_input(
       form,

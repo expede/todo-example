@@ -23,14 +23,17 @@ import socket from "./socket";
 socket.connect();
 
 if (window.listId) {
-  const msgContainer = document.getElementById("msg-container");
-  const msgInput     = document.getElementById("msg-input");
-  const postButton   = document.getElementById("msg-submit");
+  const eventsEl = document.getElementById("events");
 
-  const listChannel  = socket.channel("list:" + 1);
+  const eventsChannel = socket.channel("list:" + 1);
 
-  listChannel
+  eventsChannel
     .join()
-    .receive("ok", resp => console.log("Joined room", resp))
-    .receive("error", err => console.error("Join failed", err));
+    .receive("error", err => console.error("Join failed", err))
+    .receive("ok", resp => {
+      console.log("Attached to todo event stream", resp);
+      eventsEl.appendChild("das");
+    });
+
+  eventsChannel.push("ping");
 }

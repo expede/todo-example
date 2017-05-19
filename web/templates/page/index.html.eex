@@ -1,3 +1,8 @@
 <div class="jumbotron">
-  <h2>Welcome to our amazing Todo app!</h4>
+  <h2>Phoenix To Do List Example</h2>
 </div>
+
+<section>
+  <h3>Activity</h3>
+  <div id="events" class="well"></div>
+</section>

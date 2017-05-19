@@ -82,8 +82,6 @@ defmodule Todo.UserController do
            |> redirect(to: user_path(conn, :show, user))
 
          {:error, changeset} ->
-           IO.inspect changeset
-
            conn
            |> put_status(422)
            |> put_flash(:error, "Problem updating user!")
@@ -93,7 +91,6 @@ defmodule Todo.UserController do
 
   @spec delete(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def delete(conn, %{"id" => id}) do
-    IO.puts("DELETE")
     User
     |> Repo.get!(id)
     |> Repo.delete!()

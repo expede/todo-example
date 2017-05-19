@@ -6,7 +6,7 @@ defmodule Todo.Repo.Migrations.CreateItems do
       add :name,      :string, null: false
       add :image_url, :string, null: true
 
-      add :list_id,      references(:lists), null: false
+      add :list_id,      references(:lists, on_delete: :delete), null: false
       add :completer_id, references(:users), null: true
 
       timestamps()

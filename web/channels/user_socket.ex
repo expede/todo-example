@@ -2,7 +2,7 @@ defmodule Todo.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "list:*", Todo.ListChannel
+  channel "event:*", Todo.EventChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -1,5 +1,5 @@
 defmodule Todo.ItemController do
-  alias Todo.{Item, User}
+  alias Todo.{Item, User, List}
   use Todo.Web, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -18,12 +18,19 @@ defmodule Todo.ItemController do
   end
 
   @spec new(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def new(conn, _params), do: render(conn, "new.html", changeset: Item.changeset(%Item{}))
+  def new(conn, %{"list_id" => list_id}) do
+    render(
+      conn,
+      "new.html",
+      conn: conn,
+      list: Repo.get!(List, list_id),
+      changeset: Item.changeset(%Item{})
+    )
+  end
 
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def create(conn, %{"item" => item_params}) do
-    Item
-    |> struct()
+  def create(conn, %{"list_id" => list_id, "item" => item_params}) do
+    %Item{}
     |> Item.changeset(item_params)
     |> Repo.insert()
     |> case do
@@ -36,7 +43,12 @@ defmodule Todo.ItemController do
            conn
            |> put_status(422)
            |> put_flash(:error, "Problem creating item!")
-           |> render("edit.html", conn: conn, changeset: changeset)
+           |> render(
+             "new.html",
+             conn: conn,
+             list: Repo.get!(List, list_id),
+             changeset: changeset
+           )
        end
   end
 

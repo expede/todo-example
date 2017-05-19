@@ -17,7 +17,7 @@ defmodule Todo.ListView do
   def name_placeholder(_), do: "List name"
 
   @spec notes_placeholder(User.t()) :: String.t()
-  def notes_placeholder(%{notes: usernotes}) when is_bitstring(usernotes), do: usernotes
+  def notes_placeholder(%{notes: user_notes}) when is_bitstring(user_notes), do: user_notes
   def notes_placeholder(_), do: "Notes"
 
   @spec datetime(NaiveDateTime.t()) :: String.t()

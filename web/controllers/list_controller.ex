@@ -1,5 +1,5 @@
 defmodule Todo.ListController do
-  alias Todo.List
+  alias Todo.{List, User, Item}
   use Todo.Web, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -42,23 +42,38 @@ defmodule Todo.ListController do
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, %{"id" => id}) do
-    list = Repo.get!(List, id)
+    list = Repo.one!(from list in List, where: list.id == ^id, preload: [:items, :users])
+
+    all_users = Repo.all(from user in User, select: {user.name, user.id})
+    list_items =
 
     render(
       conn,
       "edit.html",
       changeset: List.changeset(list),
+      conn: conn,
       list: list,
-      conn: conn
+      all_users: all_users,
+      member_ids: Enum.map(list.users, fn list -> list.id end),
+      list_items: Enum.map(list.items, fn item -> {item.name, item.id} end),
+      list_item_ids: Enum.map(list.items, fn item -> item.id end)
     )
   end
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "list" => list_params}) do
-    List
-    |> Repo.get!(id)
-    |> Repo.preload([:items, :users])
-    |> List.changeset(list_params)
+    list = Repo.one!(from list in List, where: list.id == ^id, preload: [:items, :users])
+
+    items   = Repo.all(from item in Item, where: item.id in ^list_params["item_ids"])
+    members = Repo.all(from member in User, where: member.id in ^list_params["user_ids"])
+
+    normalized_params =
+      list_params
+      |> Map.put("items", items)
+      |> Map.put("users", members)
+
+    list
+    |> List.changeset(normalized_params)
     |> Repo.update()
     |> case do
          {:ok, %{name: name} = list} ->
@@ -82,7 +97,4 @@ defmodule Todo.ListController do
 
     redirect(conn, to: list_path(conn, :index))
   end
-
-  # @spec find_by_name(Ecto.Query.t(), String.t()) :: Ecto.Query.t()
-  # def find_by_name(query, name), do: Ecto.Query.where(query, [u], ilike(u.name, ^"%#{name}%"))
 end
