@@ -7,5 +7,5 @@ form_for @conn, item_path(@conn, :delete, @item),
   onsubmit: delete_confirmation(@item.name),
 ],
 fn _ ->%>
-  <button class="btn btn-primary">Delete</button>
+  <button class="btn btn-danger">Delete</button>
 <% end %>

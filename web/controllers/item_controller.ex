@@ -36,7 +36,7 @@ defmodule Todo.ItemController do
            conn
            |> put_status(422)
            |> put_flash(:error, "Problem creating item!")
-           |> render("new.html", conn: conn, changeset: changeset)
+           |> render("edit.html", conn: conn, changeset: changeset)
        end
   end
 

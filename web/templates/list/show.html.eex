@@ -1,7 +1,5 @@
 <h2><%= @list.name %></h2>
 
-<%= link("Edit", to: list_path(@conn, :edit, @list)) %>
-
 <section>
   <h3>Notes</h3>
   <%= @list.notes || "None" %>
@@ -19,6 +17,7 @@
   </tbody>
 </table>
 
+<%= link("Edit", class: "btn btn-primary", to: list_path(@conn, :edit, @list)) %>
 <%= render("delete_button.html", list: @list, conn: @conn) %>
 
 <h3>Members</h3>

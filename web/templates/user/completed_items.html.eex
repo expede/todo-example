@@ -1,10 +1,10 @@
 <table class="table">
   <thead>
-    <th>Avatar</th>
+    <th>Image</th>
     <th>Name</th>
     <th>List</th>
     <th>Created At</th>
-    <th>Completed At</th>
+    <th>Updated At</th>
   </thead>
 
   <%= for item <- @items do %>

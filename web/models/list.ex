@@ -48,8 +48,8 @@ defmodule Todo.List do
   @allowed_fields ~W(name notes)
   @required_fields ~W(name)a
 
-  @spec changeset(t(), map() | :empty) :: Ecto.Changeset.t()
-  def changeset(list, params \\ :empty) do
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(list, params \\ %{}) do
     list
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)

@@ -43,7 +43,14 @@ defmodule Todo.ListController do
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, %{"id" => id}) do
     list = Repo.get!(List, id)
-    render(conn, "edit.html", changeset: List.changeset(list), list: list, conn: conn)
+
+    render(
+      conn,
+      "edit.html",
+      changeset: List.changeset(list),
+      list: list,
+      conn: conn
+    )
   end
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -63,7 +70,7 @@ defmodule Todo.ListController do
            conn
            |> put_status(422)
            |> put_flash(:error, "Problem updating list!")
-           |> render("new.html", conn: conn, changeset: changeset)
+           |> render("edit.html", conn: conn, changeset: changeset)
        end
   end
 

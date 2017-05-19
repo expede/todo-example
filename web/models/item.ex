@@ -45,8 +45,8 @@ defmodule Todo.Item do
   @allowed_fields ~W(name image_url completer_id list_id)
   @required_fields ~W(name list_id)a
 
-  @spec changeset(t(), map() | :empty) :: Ecto.Changeset.t()
-  def changeset(item, params \\ :empty) do
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(item, params \\ %{}) do
     item
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)

@@ -1,14 +1,39 @@
 <h2>Edit <%= @item.name %></h2>
 
-<%=
-  render(
-    "form.html",
-    conn: @conn,
-    users: @users,
-    changeset: @changeset,
-    submit_path: list_item_path(@conn, :update, @item.list, @item),
-    submit_label: "Update!"
-  )
-%>
+<%= form_for @changeset, list_item_path(@conn, :update, @item.list, @item), fn form -> %>
+  <div class="form-group">
+    <%= text_input(
+      form,
+      :name,
+      placeholder: name_placeholder(@changeset.data),
+      value: @changeset.data.name,
+      class: "form-control"
+    )
+    %>
+    <%= error_tag(form, :name) %>
+  </div>
 
-<%= link "Cancel", to: list_item_path(@conn, :show, @item.list, @item) %>
+  <div class="form-group">
+    <%=
+      text_input(
+        form,
+        :image_url,
+        placeholder: image_url_placeholder(@changeset.data),
+        value: @changeset.data.image_url,
+        class: "form-control"
+      )
+    %>
+    <%= error_tag(form, :image_url) %>
+  </div>
+
+  <div class="form-group">
+    <%= select(form, :completer_id, user_options(@users)) %>
+    <%= error_tag(form, :completer) %>
+  </div>
+
+  <div class="form-group">
+    <%= link("Cancel", class: "btn btn-primary", to: list_item_path(@conn, :show, @item.list, @item)) %>
+    <%= submit("Update", class: "btn btn-success") %>
+    <%= render("delete_button.html", item: @item, conn: @conn) %>
+  </div>
+<% end %>

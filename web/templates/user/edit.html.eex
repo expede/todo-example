@@ -1,6 +1,6 @@
 <h2>Edit <%= @user.name %></h2>
 
-<%= form_for @changeset, user_path(@conn, :update, @user), fn form -> %>
+<%= form_for @changeset, user_path(@conn, :show, @user), fn form -> %>
   <div class="form-group">
     <%= text_input(
       form,
@@ -29,21 +29,19 @@
   <div class="form-group">
     <h3>Joined Lists</h3>
 
-    <ul>
-      <%= for {list, member} <- @checkbox_memberships do %>
-        <li>
-          <%= checkbox(form, String.to_atom("list_#{list.id}"), value: member) %>
-          <label><%= list.name %></label>
-        </li>
-      <% end %>
-    </ul>
-
+    <%= multiple_select(form, :list_ids, @all_lists, selected: @joined_list_ids) %>
     <%= error_tag(form, :lists) %>
   </div>
 
   <div class="form-group">
-    <%= submit("Update", class: "btn btn-primary") %>
+    <h3>Completed Items</h3>
+
+    <%= multiple_select(form, :completed_item_ids, @all_items, selected: @completed_item_ids) %>
+    <%= error_tag(form, :completed_items) %>
+  </div>
+
+  <div class="form-group">
+    <%= link("Cancel", class: "btn btn-primary", to: user_path(@conn, :show, @user)) %>
+    <%= submit("Update", class: "btn btn-success") %>
   </div>
 <% end %>
-
-<%= link "Cancel", to: user_path(@conn, :show, @user) %>

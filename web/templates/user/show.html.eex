@@ -4,22 +4,19 @@
 
 <h2><%= @user.name %></h2>
 
-<%= link("Edit", to: user_path(@conn, :edit, @user)) %>
-
 <table class="table">
   <thead>
-    <th>ID</th>
     <th>Joined</th>
     <th>Last updated</th>
   </thead>
 
   <tbody>
-    <th><%= @user.id %></th>
     <th><%= datetime(@user.inserted_at) %></th>
     <th><%= datetime(@user.updated_at) %></th>
   </tbody>
 </table>
 
+<%= link("Edit", class: "btn btn-primary", to: user_path(@conn, :edit, @user)) %>
 <%= render("delete_button.html", user: @user, conn: @conn) %>
 
 <h3>Joined Lists</h3>

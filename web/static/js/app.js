@@ -11,11 +11,26 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
+import "phoenix_html";
 
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
+import socket from "./socket";
+
+socket.connect();
+
+if (window.listId) {
+  const msgContainer = document.getElementById("msg-container");
+  const msgInput     = document.getElementById("msg-input");
+  const postButton   = document.getElementById("msg-submit");
+
+  const listChannel  = socket.channel("list:" + 1);
+
+  listChannel
+    .join()
+    .receive("ok", resp => console.log("Joined room", resp))
+    .receive("error", err => console.error("Join failed", err));
+}
