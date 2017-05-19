@@ -64,8 +64,11 @@ defmodule Todo.ListController do
   def update(conn, %{"id" => id, "list" => list_params}) do
     list = Repo.one!(from list in List, where: list.id == ^id, preload: [:items, :users])
 
-    items   = Repo.all(from item in Item, where: item.id in ^list_params["item_ids"])
-    members = Repo.all(from member in User, where: member.id in ^list_params["user_ids"])
+    item_ids = Map.get(list_params, "item_ids", [])
+    items    = Repo.all(from item in Item, where: item.id in ^item_ids)
+
+    member_ids = Map.get(list_params, "user_ids", [])
+    members = Repo.all(from member in User, where: member.id in ^member_ids)
 
     normalized_params =
       list_params

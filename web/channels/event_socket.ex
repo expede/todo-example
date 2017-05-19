@@ -1,4 +1,4 @@
-defmodule Todo.UserSocket do
+defmodule Todo.EventSocket do
   use Phoenix.Socket
 
   ## Channels

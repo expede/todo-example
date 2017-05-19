@@ -2,26 +2,21 @@
 
 <%= form_for @changeset, user_path(@conn, :create), fn form -> %>
   <div class="form-group">
-    <%= text_input(
-      form,
-      :name,
-      placeholder: name_placeholder(@changeset.data),
-      value: @changeset.changes.name,
-      class: "form-control"
-    )
+    <%=
+      text_input form, :name,
+        placeholder: name_placeholder(@changeset.data),
+        value: Map.get(@changeset.changes, :name, ""),
+        class: "form-control"
     %>
     <%= error_tag(form, :name) %>
   </div>
 
   <div class="form-group">
     <%=
-      text_input(
-        form,
-        :avatar_url,
+      text_input form, :avatar_url,
         placeholder: avatar_url_placeholder(@changeset.data),
-        value: @changeset.changes.avatar_url,
+        value: Map.get(@changeset.changes, :avatar_url, ""),
         class: "form-control"
-      )
     %>
     <%= error_tag(form, :avatar_url) %>
   </div>

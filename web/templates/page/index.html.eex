@@ -4,5 +4,6 @@
 
 <section>
   <h3>Activity</h3>
-  <div id="events" class="well"></div>
+  <ul id="events" data-id="events" class="well list-unstyled">
+  </ul>
 </section>

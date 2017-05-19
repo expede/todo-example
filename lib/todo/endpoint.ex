@@ -1,7 +1,7 @@
 defmodule Todo.Endpoint do
   use Phoenix.Endpoint, otp_app: :todo
 
-  socket "/socket", Todo.UserSocket
+  socket "/socket", Todo.EventSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

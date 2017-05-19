@@ -1,6 +1,8 @@
 defmodule Todo.ItemController do
   alias Todo.{Item, User, List}
+  import Todo.Endpoint, only: [broadcast: 3]
   use Todo.Web, :controller
+  require Logger
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(conn, _params) do
@@ -29,17 +31,19 @@ defmodule Todo.ItemController do
   end
 
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def create(conn, %{"list_id" => list_id, "item" => item_params}) do
+  def create(conn, %{"list_id" => list_id, "item" => item_params} = params) do
     %Item{}
-    |> Item.changeset(item_params)
+    |> Item.changeset(Map.put(item_params, "list_id", list_id))
     |> Repo.insert()
     |> case do
          {:ok, %{name: name} = item} ->
            conn
            |> put_flash(:info, "#{name} created!")
-           |> redirect(to: item_path(conn, :show, item))
+           |> redirect(to: list_item_path(conn, :show, list_id, item))
 
          {:error, changeset} ->
+           Logger.warn(inspect changeset)
+
            conn
            |> put_status(422)
            |> put_flash(:error, "Problem creating item!")
@@ -53,7 +57,7 @@ defmodule Todo.ItemController do
   end
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def edit(conn, %{"id" => id, "list_id" => list_id}) do
+  def edit(conn, %{"id" => id}) do
     users = Repo.all(User)
 
     item =
