@@ -28,6 +28,8 @@ defmodule Todo.ListController do
     |> Repo.insert()
     |> case do
          {:ok, %{name: name} = list} ->
+           Todo.EventChannel.broadcast_create(list)
+
            conn
            |> put_flash(:info, "#{name} created!")
            |> redirect(to: list_path(conn, :show, list))
@@ -43,9 +45,8 @@ defmodule Todo.ListController do
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, %{"id" => id}) do
     list = Repo.one!(from list in List, where: list.id == ^id, preload: [:items, :users])
-
-    all_users = Repo.all(from user in User, select: {user.name, user.id})
-    list_items =
+    all_users  = Repo.all(from user in User, select: {user.name, user.id})
+    list_items = Enum.map(list.items, fn item -> {item.name, item.id} end)
 
     render(
       conn,
@@ -55,7 +56,7 @@ defmodule Todo.ListController do
       list: list,
       all_users: all_users,
       member_ids: Enum.map(list.users, fn list -> list.id end),
-      list_items: Enum.map(list.items, fn item -> {item.name, item.id} end),
+      list_items: list_items,
       list_item_ids: Enum.map(list.items, fn item -> item.id end)
     )
   end
@@ -68,18 +69,21 @@ defmodule Todo.ListController do
     items    = Repo.all(from item in Item, where: item.id in ^item_ids)
 
     member_ids = Map.get(list_params, "user_ids", [])
-    members = Repo.all(from member in User, where: member.id in ^member_ids)
+    members    = Repo.all(from member in User, where: member.id in ^member_ids)
 
     normalized_params =
       list_params
       |> Map.put("items", items)
       |> Map.put("users", members)
 
-    list
-    |> List.changeset(normalized_params)
+    changeset = List.changeset(list, normalized_params)
+
+    changeset
     |> Repo.update()
     |> case do
          {:ok, %{name: name} = list} ->
+           Todo.EventChannel.broadcast_update(changeset)
+
            conn
            |> put_flash(:info, "#{name} updated!")
            |> redirect(to: list_path(conn, :show, list))
@@ -96,8 +100,17 @@ defmodule Todo.ListController do
   def delete(conn, %{"id" => id}) do
     List
     |> Repo.get!(id)
-    |> Repo.delete!()
+    |> Repo.delete()
+    |> case do
+         {:ok, deleted} ->
+           Todo.EventChannel.broadcast_destroy(deleted)
+           redirect(conn, to: list_path(conn, :index))
 
-    redirect(conn, to: list_path(conn, :index))
+         {:error, survivor} ->
+           conn
+           |> put_status(422)
+           |> put_flash(:error, "Problem deleting list!")
+           |> render("show.html", conn: conn, list: Repo.preload(survivor, [:items, :members]))
+       end
   end
 end

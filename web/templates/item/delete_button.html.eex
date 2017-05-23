@@ -1,5 +1,5 @@
 <%=
-form_for @conn, item_path(@conn, :delete, @item),
+form_for @conn, list_item_path(@conn, :delete, @item.list, @item),
 [
   method: :delete,
   as: :delete_params,

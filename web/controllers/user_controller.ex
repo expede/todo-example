@@ -22,8 +22,7 @@ defmodule Todo.UserController do
 
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def create(conn, %{"user" => user_params}) do
-    User
-    |> struct()
+    %User{}
     |> User.changeset(user_params)
     |> Repo.insert()
     |> case do
@@ -122,7 +121,7 @@ defmodule Todo.UserController do
          {:error, survivor} ->
            conn
            |> put_status(422)
-           |> put_flash(:error, "Problem creating user!")
+           |> put_flash(:error, "Problem deleting user!")
            |> render("show.html", conn: conn, user: survivor)
        end
   end

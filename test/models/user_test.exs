@@ -3,9 +3,7 @@ defmodule Todo.UserTest do
 
   doctest Todo.User
 
-  test "foo" do
-    assert true
-    assert false
+  test "User" do
     assert true
   end
 end

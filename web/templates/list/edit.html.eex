@@ -15,7 +15,7 @@
     <%=
       textarea form, :notes,
         placeholder: notes_placeholder(@changeset.data),
-        value: Map.get(@changeset.data, :notes, ""),
+        value: @changeset.data.notes || "",
         class: "form-control"
     %>
     <%= error_tag(form, :notes) %>

@@ -1,6 +1,5 @@
 defmodule Todo.EventChannel do
   use Todo.Web, :channel
-  require Logger
 
   # ==== #
   # Send #

@@ -1,0 +1,24 @@
+machine:
+  environment:
+    PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+  services:
+    - postgresql
+
+database:
+  override:
+    - createdb todo_test
+
+dependencies:
+  pre:
+    - priv/ci/prepare.sh
+    - "MIX_ENV=test mix deps.get"
+    - "MIX_ENV=test mix deps.compile"
+    - "MIX_ENV=test mix compile"
+  cache_directories:
+    - ~/.asdf
+    - deps
+    - _build
+
+test:
+  override:
+    - MIX_ENV=test mix quality

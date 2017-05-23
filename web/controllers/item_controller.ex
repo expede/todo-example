@@ -4,10 +4,10 @@ defmodule Todo.ItemController do
   use Todo.Web, :controller
   require Logger
 
-  @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def index(conn, _params) do
-    render(conn, "index.html", items: Repo.all(Item), conn: conn)
-  end
+  # @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
+  # def index(conn, _params) do
+  #   render(conn, "index.html", items: Repo.all(Item), conn: conn)
+  # end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
@@ -37,6 +37,8 @@ defmodule Todo.ItemController do
     |> Repo.insert()
     |> case do
          {:ok, %{name: name} = item} ->
+           Todo.EventChannel.broadcast_create(item)
+
            conn
            |> put_flash(:info, "#{name} created!")
            |> redirect(to: list_item_path(conn, :show, list_id, item))
@@ -79,13 +81,18 @@ defmodule Todo.ItemController do
 
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "item" => item_params}) do
-    Item
-    |> Repo.get!(id)
-    |> Repo.preload([:completer, :list])
-    |> Item.changeset(item_params)
+    changeset =
+      Item
+      |> Repo.get!(id)
+      |> Repo.preload([:completer, :list])
+      |> Item.changeset(item_params)
+
+    changeset
     |> Repo.update()
     |> case do
          {:ok, %{name: name} = item} ->
+           Todo.EventChannel.broadcast_update(changeset)
+
            conn
            |> put_flash(:info, "#{name} updated!")
            |> redirect(to: list_item_path(conn, :show, item.list, item))
@@ -102,8 +109,17 @@ defmodule Todo.ItemController do
   def delete(conn, %{"id" => id}) do
     Item
     |> Repo.get!(id)
-    |> Repo.delete!()
+    |> Repo.delete()
+    |> case do
+         {:ok, deleted} ->
+           Todo.EventChannel.broadcast_destroy(deleted)
+           redirect(conn, to: list_path(conn, :show, deleted.list_id))
 
-    redirect(conn, to: item_path(conn, :index))
+         {:error, survivor} ->
+           conn
+           |> put_status(422)
+           |> put_flash(:error, "Problem deleting item!")
+           |> render("show.html", conn: conn, item: Repo.preload(survivor, [:list, :users]))
+       end
   end
 end
