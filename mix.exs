@@ -62,24 +62,24 @@ defmodule Todo.Mixfile do
   defp deps do
     [
       # Basics
-      {:phoenix, "~> 1.2.1"},
+      {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.6"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
+      {:postgrex, "~> 0.13"},
+      {:phoenix_html, "~> 2.10"},
+      {:phoenix_live_reload, "~> 1.1", only: :dev},
+      {:gettext, "~> 0.13"},
       {:cowboy, "~> 1.0"},
 
       # Quality
-      {:credo, "~> 0.7"},
+      {:credo, "~> 0.8"},
       {:dialyxir, "~> 0.5", runtime: false},
-      {:ex_doc, "~> 0.15"},
+      {:ex_doc, "~> 0.17"},
       {:ex_spec, "~> 2.0"},
 
       # Convenience
-      {:ex_machina, "~> 2.0"},
-      {:faker, "~> 0.8"},
+      {:ex_machina, "~> 2.1"},
+      {:faker, "~> 0.9"},
       {:timex, "~> 3.1"}
     ]
   end
