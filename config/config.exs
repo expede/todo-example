@@ -10,11 +10,11 @@ config :todo,
   ecto_repos: [Todo.Repo]
 
 # Configures the endpoint
-config :todo, Todo.Endpoint,
+config :todo, TodoWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "0s/L6BVW/Mh3iScLBgzN8ffEoN8sGxiUc3+HTrJDUNeWCG0En4Rmdag89Yl8TUWx",
-  render_errors: [view: Todo.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Todo.PubSub,
+  render_errors: [view: TodoWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: TodoWeb.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

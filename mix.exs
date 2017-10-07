@@ -8,7 +8,7 @@ defmodule Todo.Mixfile do
       description: "Example todo/list app",
 
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.5",
 
       package: [
         maintainers: ["Brooklyn Zelenka"],
@@ -53,8 +53,8 @@ defmodule Todo.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   # Specifies your project dependencies.
   #
