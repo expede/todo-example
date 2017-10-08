@@ -1,5 +1,5 @@
 defmodule TodoWb.API.ListController do
-  alias TodoWeb.List
+  alias TodoWeb.Lists.List
   use TodoWeb, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()

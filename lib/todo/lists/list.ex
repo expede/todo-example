@@ -1,4 +1,4 @@
-defmodule Todo.List do
+defmodule Todo.Lists.List do
   @moduledoc """
   Models a list of items
 
@@ -8,15 +8,16 @@ defmodule Todo.List do
 
   """
 
-  use TodoWeb, :model
+  use Ecto.Schema
+  import Ecto.Changeset
 
-  @type t :: %Todo.List{
+  @type t :: %Todo.Lists.List{
     id: non_neg_integer(),
     name: String.t(),
     notes: String.t(),
 
-    users: [Todo.User.t()],
-    items: [Todo.Item.t()],
+    users: [Todo.Accounts.User.t()],
+    items: [Todo.Lists.Item.t()],
 
     inserted_at: Ecto.DateTime.t(),
     updated_at: Ecto.DateTime.t()
@@ -36,11 +37,11 @@ defmodule Todo.List do
     # Associations
     # ============
 
-    has_many :items, Todo.Item,
+    has_many :items, Todo.Lists.Item,
       on_replace: :delete,
       on_delete:  :delete_all
 
-    many_to_many :users, Todo.User,
+    many_to_many :users, Todo.Accounts.User,
       join_through: "memberships",
       on_replace:   :delete
   end
@@ -50,7 +51,6 @@ defmodule Todo.List do
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(list, params \\ %{}) do
-    IO.inspect(params)
     list
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)

@@ -16,19 +16,12 @@ defmodule TodoWeb do
   below.
   """
 
-  def model do
-    quote do
-      use Ecto.Schema
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-    end
-  end
-
   def controller do
     quote do
       use Phoenix.Controller, namespace: TodoWeb
+
+      alias Todo.Accounts.User
+      alias Todo.Lists.{List, Item}
 
       alias Todo.Repo
       import Ecto
@@ -41,6 +34,9 @@ defmodule TodoWeb do
 
   def view do
     quote do
+      alias Todo.Accounts.User
+      alias Todo.Lists.{List, Item}
+
       use Phoenix.View,
         root: "lib/todo_web/templates",
         namespace: TodoWeb

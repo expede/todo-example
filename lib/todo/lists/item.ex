@@ -1,4 +1,4 @@
-defmodule Todo.Item do
+defmodule Todo.Lists.Item do
   @moduledoc """
   Models a list item
 
@@ -9,16 +9,17 @@ defmodule Todo.Item do
 
   """
 
-  use TodoWeb, :model
+  use Ecto.Schema
+  import Ecto.Changeset
 
-  @type t :: %Todo.Item{
+  @type t :: %Todo.Lists.Item{
     id: non_neg_integer(),
 
     name: String.t(),
     image_url: String.t(),
 
-    completer: Todo.User.t() | nil,
-    list: Todo.List.t(),
+    completer: Todo.Accounts.User.t() | nil,
+    list: Todo.Lists.List.t(),
 
     inserted_at: Ecto.DateTime.t(),
     updated_at: Ecto.DateTime.t()
@@ -38,8 +39,8 @@ defmodule Todo.Item do
     # Associations
     # ============
 
-    belongs_to :list,      Todo.List
-    belongs_to :completer, Todo.User
+    belongs_to :list,      Todo.Lists.List
+    belongs_to :completer, Todo.Accounts.User
   end
 
   @allowed_fields ~W(name image_url completer_id list_id)

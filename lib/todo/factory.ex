@@ -7,9 +7,9 @@ defmodule Todo.Factory do
   # Users #
   # ===== #
 
-  @spec user_factory() :: Todo.User.t()
+  @spec user_factory() :: Todo.Accounts.User.t()
   def user_factory do
-    %Todo.User{
+    %Todo.Accounts.User{
       name: Faker.Name.En.name(),
       avatar_url: Enum.random([nil, Faker.Avatar.image_url()])
     }
@@ -19,9 +19,9 @@ defmodule Todo.Factory do
   # Lists #
   # ===== #
 
-  @spec list_factory() :: Todo.List.t()
+  @spec list_factory() :: Todo.Lists.List.t()
   def list_factory do
-    %Todo.List{
+    %Todo.Lists.List{
       name: Faker.Company.En.name(),
       notes: Enum.random([nil, Faker.Lorem.Shakespeare.En.hamlet()])
     }
@@ -31,9 +31,9 @@ defmodule Todo.Factory do
   # Items #
   # ===== #
 
-  @spec item_factory() :: Todo.Item.t()
+  @spec item_factory() :: Todo.Lists.Item.t()
   def item_factory do
-    %Todo.Item{
+    %Todo.Lists.Item{
       name: Enum.random([Faker.Beer.En.name(), Faker.Pokemon.En.name()]),
       image_url: Enum.random([nil, Faker.Internet.image_url()]),
       completer: build(:user),

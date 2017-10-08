@@ -1,5 +1,5 @@
 defmodule TodoWeb.API.UserController do
-  alias Todo.User
+  alias Todo.Accounts.User
   use TodoWeb, :controller
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()

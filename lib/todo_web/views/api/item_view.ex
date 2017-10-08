@@ -13,13 +13,13 @@ defmodule TodoWeb.API.ItemView do
   def render("item.json", %{item: item} = params) do
     list =
       case item.list do
-        %Todo.List{} = list -> render_one(list, TodoWeb.API.ListView, "list.json")
+        %List{} = list -> render_one(list, TodoWeb.API.ListView, "list.json")
         _ -> nil
       end
 
     completer =
       case item.completer do
-        %Todo.User{} = user -> render_one(user, TodoWeb.API.UserView, "user.json")
+        %User{} = user -> render_one(user, TodoWeb.API.UserView, "user.json")
         _ -> nil
       end
 

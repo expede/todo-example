@@ -1,5 +1,7 @@
 defmodule TodoWeb.ItemController do
-  alias TodoWeb.{Item, User, List}
+  alias TodoWeb.Lists.{Item, List}
+  alias TodoWeb.Accounts.User
+
   import TodoWeb.Endpoint, only: [broadcast: 3]
   use TodoWeb, :controller
   require Logger

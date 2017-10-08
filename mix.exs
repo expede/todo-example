@@ -37,7 +37,7 @@ defmodule Todo.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Todo, []},
+      mod: {Todo.Application, []},
       applications: [
         :phoenix,
         :phoenix_pubsub,

@@ -20,7 +20,7 @@ defmodule TodoWeb.ItemView do
   def image_url_placeholder(%{image_url: image_url}) when is_bitstring(image_url), do: image_url
   def image_url_placeholder(_), do: "Image URL"
 
-  @spec user_options([Todo.User.t()]) :: keyword()
+  @spec user_options([User.t()]) :: keyword()
   def user_options(users), do: Enum.map(users, fn %{id: id, name: name} -> {name, id} end)
 
   @spec datetime(NaiveDateTime.t()) :: String.t()

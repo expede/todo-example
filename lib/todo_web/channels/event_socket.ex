@@ -1,4 +1,4 @@
-defmodule Todo.EventSocket do
+defmodule TodoWeb.EventSocket do
   use Phoenix.Socket
 
   ## Channels

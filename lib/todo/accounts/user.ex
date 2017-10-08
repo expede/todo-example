@@ -1,4 +1,4 @@
-defmodule Todo.User do
+defmodule Todo.Accounts.User do
   @moduledoc """
   A human user of the system
 
@@ -8,16 +8,17 @@ defmodule Todo.User do
 
   """
 
-  use TodoWeb, :model
+  use Ecto.Schema
+  import Ecto.Changeset
 
-  @type t :: %Todo.User{
+  @type t :: %Todo.Accounts.User{
     id: non_neg_integer(),
 
     name: String.t(),
     avatar_url: String.t(),
 
-    completed_items: [Todo.Item.t()],
-    lists: [Todo.List.t()],
+    completed_items: [Todo.Lists.Item.t()],
+    lists: [Todo.Lists.List.t()],
 
     inserted_at: Ecto.DateTime.t(),
     updated_at: Ecto.DateTime.t()
@@ -37,12 +38,12 @@ defmodule Todo.User do
     # Associations
     # ============
 
-    has_many :completed_items, Todo.Item,
+    has_many :completed_items, Todo.Lists.Item,
       foreign_key: :completer_id,
       on_replace: :nilify,
       on_delete:  :nilify_all
 
-    many_to_many :lists, Todo.List,
+    many_to_many :lists, Todo.Lists.List,
       join_through: "memberships",
       on_replace: :delete,
       on_delete:  :delete_all
