@@ -26,16 +26,16 @@ lists =
   |> Enum.random()
   |> Range.new(30)
   |> Enum.map(fn _ ->
-    random_users = Enum.take_random(users, Enum.random(5..20))
-    Factory.insert(:list, users: random_users)
-  end)
-
-IO.puts "*** Seeding Items ***"
-
-500..3000
-|> Enum.random()
-|> Range.new(400)
-|> Enum.map(fn _ ->
-  completer = if Enum.random([true, true, false]), do: Enum.random(users)
-  Factory.insert(:item, list: Enum.random(lists), completer: completer)
+  random_users = Enum.take_random(users, Enum.random(5..20))
+  Factory.insert(:list, users: random_users)
 end)
+
+  IO.puts "*** Seeding Items ***"
+
+  500..3000
+  |> Enum.random()
+  |> Range.new(400)
+  |> Enum.map(fn _ ->
+    completer = if Enum.random([true, true, false]), do: Enum.random(users)
+    Factory.insert(:item, list: Enum.random(lists), completer: completer)
+  end)

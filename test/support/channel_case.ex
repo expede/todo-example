@@ -20,7 +20,7 @@ defmodule TodoWeb.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Todo.Repo
+      alias TodoWeb.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query

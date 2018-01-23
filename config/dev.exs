@@ -24,8 +24,8 @@ config :todo, TodoWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{web/views/.*(ex)$},
-      ~r{web/templates/.*(eex)$}
+      ~r{lib/todo_web/views/.*(ex)$},
+      ~r{lib/todo_web/templates/.*(eex)$}
     ]
   ]
 

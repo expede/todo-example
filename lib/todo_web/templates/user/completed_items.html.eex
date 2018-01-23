@@ -14,7 +14,7 @@
       <th>
         <%=
           render(
-            Todo.ItemView,
+            TodoWeb.ItemView,
             "image.html",
             link: item_path,
             image_url: item.image_url,

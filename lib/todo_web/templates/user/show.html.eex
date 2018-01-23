@@ -20,7 +20,7 @@
 <%= render("delete_button.html", user: @user, conn: @conn) %>
 
 <h3>Joined Lists</h3>
-<%= render(Todo.ListView, "lists.html", lists: @user.lists, conn: @conn) %>
+<%= render(TodoWeb.ListView, "lists.html", lists: @user.lists, conn: @conn) %>
 
 <h3>Completed Items</h3>
 <%= render("completed_items.html", items: @user.completed_items, conn: @conn) %>
