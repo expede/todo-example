@@ -8,7 +8,7 @@ defmodule Todo.Mixfile do
       description: "Example todo/list app",
 
       version: "0.0.1",
-      elixir: "~> 1.5",
+      elixir: "~> 1.6",
 
       package: [
         maintainers: ["Brooklyn Zelenka"],
